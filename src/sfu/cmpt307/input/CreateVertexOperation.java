@@ -46,11 +46,12 @@ public class CreateVertexOperation extends Operation {
 	}
 	
 	@Override
-	public void run(Graph graph) {
+	public void run(Graph graph, Logger logger) {
 		Vertex vertex = new Vertex(getID());
 		vertex.setX(getX());
 		vertex.setY(getY());
 		graph.addVertex(vertex);
+		logger.logResult(vertex.toString());
 	}
 	
 	@Override

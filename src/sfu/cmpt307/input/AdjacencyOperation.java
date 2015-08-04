@@ -25,10 +25,6 @@ public class AdjacencyOperation extends Operation {
 		return this.ID;
 	}
 	
-	public List<Integer> getAdjacencies() {
-		return this.adjacencyList;
-	}
-	
 	public void addAdjacency(int ID) {
 		this.adjacencyList.add(ID);
 	}
@@ -43,12 +39,14 @@ public class AdjacencyOperation extends Operation {
 	}
 	
 	@Override
-	public void run(Graph graph) {
+	public void run(Graph graph, Logger logger) {
 		Vertex v1 = graph.findVertexByID(getID());
-		for (Integer adjacentID: getAdjacencies()) {
+		logger.logResult(v1.toString() + " Adjacencies: ");
+		for (Integer adjacentID: adjacencyList) {
 			Vertex adjacentVertex = graph.findVertexByID(adjacentID);
 			Edge connectingEdge = Edge.makeEdge(v1, adjacentVertex);
 			graph.addEdge(connectingEdge);
+			logger.logResult(connectingEdge.toString());
 		}
 	};
 	

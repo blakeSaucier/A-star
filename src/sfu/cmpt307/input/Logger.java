@@ -13,22 +13,13 @@ public class Logger {
 	}
 
 	public void logOperation(Operation op) {
-		log.append(op + ": \t\t");
+		log.append(op + System.lineSeparator());
 	}
 
 	public void logResult(String msg) {
 
 		log.append(msg);
 		log.append(System.lineSeparator());
-	}
-
-	public void logOperationStart() {
-		log.append("------------------------- Tree Operations ------------------------------"
-				+ System.lineSeparator());
-	}
-
-	public void logLeaves(String leaves) {
-		log.append(leaves);
 	}
 
 	public void print() {

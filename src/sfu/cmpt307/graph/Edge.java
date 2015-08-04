@@ -37,7 +37,7 @@ public class Edge {
 	}
 
 	public static Edge makeEdge(Vertex v1, Vertex v2) {
-		Edge result = new Edge(euclideanDistance(v1, v2), v1, v2);
+		Edge result = new Edge(haversineDistance(v1, v2), v1, v2);
 		return result;
 	}
 	
@@ -45,6 +45,24 @@ public class Edge {
 		Double xDiff = v1.getX() - v2.getX();
 		Double yDiff = v1.getY() - v2.getY();
 		return Math.sqrt(Math.pow(xDiff, 2) + Math.pow(yDiff, 2));
+	}
+	
+	// Vertices represent Latitude and Longitude locations
+	private static Double haversineDistance(Vertex v1, Vertex v2) {
+		double earthRadius = 6371.0 * 1000; // Earth radius in Meters
+	    double dLat = Math.toRadians(v2.getY() - v1.getY());
+	    double dLng = Math.toRadians(v2.getX() - v1.getX());
+
+	    double sindLat = Math.sin(dLat / 2);
+	    double sindLong = Math.sin(dLng / 2);
+	    
+	    double a = Math.pow(sindLat, 2) + Math.pow(sindLong, 2)
+	            * Math.cos(Math.toRadians(v1.getY())) * Math.cos(Math.toRadians(v2.getY()));
+	    
+	    double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+	    double distance = earthRadius * c;
+	    
+		return distance;
 	}
 	
 	@Override

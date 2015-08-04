@@ -14,5 +14,5 @@ public class Operation {
 		return this.operator;
 	}
 	
-	public void run(Graph graph) {}
+	public void run(Graph graph, Logger logger) {}
 }

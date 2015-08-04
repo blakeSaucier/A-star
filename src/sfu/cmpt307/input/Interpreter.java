@@ -20,7 +20,7 @@ public class Interpreter {
 	public Graph run() {
 		Graph graph = new Graph();
 		for (Operation operation: scanner.getOperations()) {
-			operation.run(graph);
+			operation.run(graph, logger);
 		}
 		logger.writeLogToFile();
 		return graph;
