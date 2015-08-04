@@ -3,6 +3,10 @@ package sfu.cmpt307.input;
 import java.util.ArrayList;
 import java.util.List;
 
+import sfu.cmpt307.graph.Edge;
+import sfu.cmpt307.graph.Graph;
+import sfu.cmpt307.graph.Vertex;
+
 public class AdjacencyOperation extends Operation {
 
 	private int ID;
@@ -39,10 +43,20 @@ public class AdjacencyOperation extends Operation {
 	}
 	
 	@Override
+	public void run(Graph graph) {
+		Vertex v1 = graph.findVertexByID(getID());
+		for (Integer adjacentID: getAdjacencies()) {
+			Vertex adjacentVertex = graph.findVertexByID(adjacentID);
+			Edge connectingEdge = Edge.makeEdge(v1, adjacentVertex);
+			graph.addEdge(connectingEdge);
+		}
+	};
+	
+	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
 		builder.append(operator.getLexeme() + " ");
-		builder.append(ID + "-> ");
+		builder.append(ID + " -> ");
 		for (Integer id: adjacencyList) {
 			builder.append(id + " ");
 		}

@@ -1,5 +1,8 @@
 package sfu.cmpt307.input;
 
+import sfu.cmpt307.graph.Graph;
+import sfu.cmpt307.graph.Vertex;
+
 public class CreateVertexOperation extends Operation {
 
 	private int ID;
@@ -40,6 +43,14 @@ public class CreateVertexOperation extends Operation {
 		operation.setXCoord(xCoord);
 		operation.setYCoord(yCoord);
 		return operation;
+	}
+	
+	@Override
+	public void run(Graph graph) {
+		Vertex vertex = new Vertex(getID());
+		vertex.setX(getX());
+		vertex.setY(getY());
+		graph.addVertex(vertex);
 	}
 	
 	@Override

@@ -1,5 +1,7 @@
 package sfu.cmpt307.input;
 
+import sfu.cmpt307.graph.Graph;
+
 public class Operation {
 	
 	protected Operator operator;
@@ -11,4 +13,6 @@ public class Operation {
 	public Operator getOperator() {
 		return this.operator;
 	}
+	
+	public void run(Graph graph) {}
 }

@@ -37,7 +37,12 @@ public class InputScanner {
 				readVertexLine(line);
 				line = reader.readLine();
 			}
+			
 			line = reader.readLine();
+			while(isBlank(line)) {
+				line = reader.readLine();
+			}
+			
 			while (line != null) {
 				readEdgeLine(line);
 				line = reader.readLine();
@@ -52,21 +57,19 @@ public class InputScanner {
 	}
 	
 	private void readVertexLine(String line)  {
-		System.out.println(line);
-		List<String> stringInput = new ArrayList<String>(Arrays.asList(line.split("\\s+")));
+		List<String> stringInput = new ArrayList<String>(Arrays.asList(line.split("\\s+:\\s|,\\s+")));
 		createVertexOperation(stringInput);
 	}
 	
 	private void readEdgeLine(String line) {
-		System.out.println(line);
-		List<String> stringInput = new ArrayList<String>(Arrays.asList(line.split(":\\s+|,")));
+		List<String> stringInput = new ArrayList<String>(Arrays.asList(line.split("\\s+:\\s+|,\\s+|,")));
 		createEdgeOperation(stringInput);
 	}
 	
 	private void createVertexOperation(List<String> textInput) {
-		int vertexID = Integer.parseInt(textInput.get(1));
-		Double xCoord = Double.parseDouble(textInput.get(2));
-		Double yCoord = Double.parseDouble(textInput.get(3));
+		int vertexID = Integer.parseInt(textInput.get(0));
+		Double xCoord = Double.parseDouble(textInput.get(1));
+		Double yCoord = Double.parseDouble(textInput.get(2));
 		Operation op = CreateVertexOperation.make(vertexID, xCoord, yCoord);
 		operations.add(op);
 	}

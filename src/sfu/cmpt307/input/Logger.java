@@ -35,9 +35,14 @@ public class Logger {
 		System.out.println(log.toString());
 	}
 
-	public void writeLogToFile() throws FileNotFoundException {
-		PrintWriter out = new PrintWriter(FILENAME);
-		out.println(log.toString());
-		out.close();
+	public void writeLogToFile() {
+		PrintWriter out;
+		try {
+			out = new PrintWriter(FILENAME);
+			out.println(log.toString());
+			out.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
 	}
 }
