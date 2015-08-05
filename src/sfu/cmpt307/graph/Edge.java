@@ -48,7 +48,7 @@ public class Edge {
 	}
 	
 	// Vertices represent Latitude and Longitude locations
-	private static Double haversineDistance(Vertex v1, Vertex v2) {
+	public static Double haversineDistance(Vertex v1, Vertex v2) {
 		double earthRadius = 6371.0 * 1000; // Earth radius in Meters
 	    double dLat = Math.toRadians(v2.getY() - v1.getY());
 	    double dLng = Math.toRadians(v2.getX() - v1.getX());

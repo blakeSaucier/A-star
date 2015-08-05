@@ -13,6 +13,7 @@ public class Dijkstra {
 
 	private Graph graph;
 	private Map<Vertex, Double> distances;
+	private Map<Vertex, Vertex> parents;
 	private Set<Vertex> unDecided;
 	
 	// Dijkstra's running statistics
@@ -22,21 +23,22 @@ public class Dijkstra {
 		this.graph = graph;
 	}
 	
-	public Double execute(Vertex start, Vertex end) {
-		System.out.println("Running djikstra's");
+	public Result execute(Vertex start, Vertex end) {
 		distances = new HashMap<Vertex, Double>();
+		parents = new HashMap<Vertex, Vertex>();
 		unDecided = new HashSet<Vertex>();
 		verticesVisited = 0;
 		initializeDistances();
 		distances.put(start, 0.0);
 		while (unDecided.size() > 0) {
 			Vertex nextMinimum = smallestUndecided();
-			if (nextMinimum.equals(end)) {
-				return distances.get(nextMinimum);
+			verticesVisited++;
+			if (nextMinimum.equals(end)) { 
+				return new Result(verticesVisited, distances.get(nextMinimum));
 			}
 			exploreAdjacent(nextMinimum);
 		}
-		return distances.get(end);
+		return new Result(verticesVisited, distances.get(end));
 	}
 	
 	private void initializeDistances() {
@@ -50,9 +52,11 @@ public class Dijkstra {
 		Double currentDistance = distances.get(vertex);
 		for (Vertex adjacent: vertex.getAdjacencies()) {
 			verticesVisited++;
-			Double weight = graph.getEdge(vertex, adjacent).getWeight();
-			if ((weight + currentDistance) < distances.get(adjacent) ) {
-				distances.put(adjacent, weight + currentDistance);
+			Double edgeCost = graph.getEdge(vertex, adjacent).getWeight();
+			Double distanceToAdjacent = distances.get(adjacent);
+			if ((edgeCost + currentDistance) < distanceToAdjacent ) {
+				distances.put(adjacent, edgeCost + currentDistance);
+				parents.put(adjacent, vertex);
 			}
 		}
 	}
@@ -68,5 +72,5 @@ public class Dijkstra {
 		}
 		unDecided.remove(minimumDistanceVertex);
 		return minimumDistanceVertex;
-	}
+	}	
 }
