@@ -31,10 +31,9 @@ public class Astar {
 		
 		initializeDistances();
 		distances.put(start, 0.0);
-		estimatedDistances.put(start, Edge.haversineDistance(start, end));
+		estimatedDistances.put(start, Edge.distance(start, end));
 		while (unDecided.size() > 0) {
 			Vertex nextMinimum = smallestUndecided();
-			verticesVisited++;
 			if (nextMinimum.equals(end)) { 
 				return new Result(verticesVisited, distances.get(nextMinimum));
 			}
@@ -54,13 +53,14 @@ public class Astar {
 	private void exploreAdjacent(Vertex vertex, Vertex end) {
 		Double currentDistance = distances.get(vertex);
 		for (Vertex adjacent: vertex.getAdjacencies()) {
-			verticesVisited++;
 			Double edgeCost = graph.getEdge(vertex, adjacent).getWeight();
 			Double distanceToAdjacent = distances.get(adjacent);
 			if ((edgeCost + currentDistance) < distanceToAdjacent ) {
+				verticesVisited++;
 				distances.put(adjacent, edgeCost + currentDistance);
-				Double remainingDistanceEstimate = Edge.haversineDistance(adjacent, end);
-				estimatedDistances.put(adjacent, distances.get(adjacent) + remainingDistanceEstimate);
+				Double remainingDistanceEstimate = Edge.distance(adjacent, end);
+				Double estimate = remainingDistanceEstimate + distances.get(adjacent);
+				estimatedDistances.put(adjacent, estimate);
 			}
 		}
 	}
@@ -72,9 +72,17 @@ public class Astar {
 			Double distance = estimatedDistances.get(v);
 			if (distance < min) {
 				minimumDistanceVertex = v;
+				min = distance;
 			}
 		}
 		unDecided.remove(minimumDistanceVertex);
 		return minimumDistanceVertex;
+	}
+	
+	// Static convenience method to run A-Star
+	public static void makeAndRun(Graph graph, Vertex start, Vertex end) {
+		Astar aStar = new Astar(graph);
+		Result aStarResult = aStar.execute(start, end);
+		System.out.println("A-Star" + System.lineSeparator() +"Distance is : " + aStarResult.distance + " m, visited " + aStarResult.verticesVisited + " vertices while running");
 	}
 }

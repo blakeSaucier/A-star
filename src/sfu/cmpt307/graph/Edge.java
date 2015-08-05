@@ -37,16 +37,10 @@ public class Edge {
 	}
 
 	public static Edge makeEdge(Vertex v1, Vertex v2) {
-		Edge result = new Edge(haversineDistance(v1, v2), v1, v2);
+		Edge result = new Edge(distance(v1, v2), v1, v2);
 		return result;
 	}
-	
-	private static Double euclideanDistance(Vertex v1, Vertex v2) {
-		Double xDiff = v1.getX() - v2.getX();
-		Double yDiff = v1.getY() - v2.getY();
-		return Math.sqrt(Math.pow(xDiff, 2) + Math.pow(yDiff, 2));
-	}
-	
+		
 	// Vertices represent Latitude and Longitude locations
 	public static Double haversineDistance(Vertex v1, Vertex v2) {
 		double earthRadius = 6371.0 * 1000; // Earth radius in Meters
@@ -63,6 +57,14 @@ public class Edge {
 	    double distance = earthRadius * c;
 	    
 		return distance;
+	}
+	
+	// Distance formula given in course Notes
+	public static Double distance(Vertex v1, Vertex v2) {
+		Double dlat	=	2	*	Math.PI	*	(v2.getX() - v1.getX())	/	360;	
+		Double mlat	=	2	*	Math.PI	*	(v1.getX() + v2.getX())	/	2	/	360;	
+		Double dlon	=	2	*	Math.PI	*	(v2.getY() - v1.getY())	/	360;
+		return	6371009	* Math.pow(Math.pow((Math.pow(dlat, 2)	+	(Math.cos(mlat)	*	dlon)),	2),	0.5);
 	}
 	
 	@Override

@@ -32,7 +32,6 @@ public class Dijkstra {
 		distances.put(start, 0.0);
 		while (unDecided.size() > 0) {
 			Vertex nextMinimum = smallestUndecided();
-			verticesVisited++;
 			if (nextMinimum.equals(end)) { 
 				return new Result(verticesVisited, distances.get(nextMinimum));
 			}
@@ -51,10 +50,10 @@ public class Dijkstra {
 	private void exploreAdjacent(Vertex vertex) {
 		Double currentDistance = distances.get(vertex);
 		for (Vertex adjacent: vertex.getAdjacencies()) {
-			verticesVisited++;
 			Double edgeCost = graph.getEdge(vertex, adjacent).getWeight();
 			Double distanceToAdjacent = distances.get(adjacent);
 			if ((edgeCost + currentDistance) < distanceToAdjacent ) {
+				verticesVisited++;
 				distances.put(adjacent, edgeCost + currentDistance);
 				parents.put(adjacent, vertex);
 			}
@@ -68,9 +67,18 @@ public class Dijkstra {
 			Double distance = distances.get(v);
 			if (distance < min) {
 				minimumDistanceVertex = v;
+				min = distance;
 			}
 		}
 		unDecided.remove(minimumDistanceVertex);
 		return minimumDistanceVertex;
-	}	
+	}
+	
+	// Static convenience method for creating and running Dijkstra
+	
+	public static void makeAndRun(Graph graph, Vertex start, Vertex end) {
+		Dijkstra dijkstra = new Dijkstra(graph);
+		Result result = dijkstra.execute(start, end);
+		System.out.println("Dijkstra" + System.lineSeparator() + "Distance is : " + result.distance + " m, visited " + result.verticesVisited + " vertices while running");
+	}
 }
