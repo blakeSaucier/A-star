@@ -11,10 +11,16 @@ public class ResultComparison {
 	}
 	
 	public float AStarMultiplesFaster() {
+		if (aStarResult.verticesVisited == 0) {
+			return 0f;
+		}
 		return dijkstraResult.verticesVisited / aStarResult.verticesVisited;
 	}
 	
 	public float AStarFractionOfDijkstra() {
+		if (dijkstraResult.verticesVisited == 0) {
+			return 0f;
+		}
 		return aStarResult.verticesVisited / dijkstraResult.verticesVisited;
 	}
 }
