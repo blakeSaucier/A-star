@@ -53,10 +53,10 @@ public class Astar {
 	private void exploreAdjacent(Vertex vertex, Vertex end) {
 		Double currentDistance = distances.get(vertex);
 		for (Vertex adjacent: vertex.getAdjacencies()) {
+			verticesVisited++;
 			Double edgeCost = graph.getEdge(vertex, adjacent).getWeight();
 			Double distanceToAdjacent = distances.get(adjacent);
 			if ((edgeCost + currentDistance) < distanceToAdjacent ) {
-				verticesVisited++;
 				distances.put(adjacent, edgeCost + currentDistance);
 				Double remainingDistanceEstimate = Edge.distance(adjacent, end);
 				Double estimate = remainingDistanceEstimate + distances.get(adjacent);
@@ -80,9 +80,13 @@ public class Astar {
 	}
 	
 	// Static convenience method to run A-Star
-	public static void makeAndRun(Graph graph, Vertex start, Vertex end) {
+	public static Result makeAndRun(Graph graph, Vertex start, Vertex end) {
 		Astar aStar = new Astar(graph);
 		Result aStarResult = aStar.execute(start, end);
-		System.out.println("A-Star" + System.lineSeparator() +"Distance is : " + aStarResult.distance + " m, visited " + aStarResult.verticesVisited + " vertices while running");
+		System.out.print("*A-Star*" + System.lineSeparator() + "Distance: ");
+		System.out.format("%.2f", aStarResult.distance);
+		System.out.println(" m"); 
+		System.out.println("Vertices visited: " + aStarResult.verticesVisited + System.lineSeparator());
+		return aStarResult;
 	}
 }

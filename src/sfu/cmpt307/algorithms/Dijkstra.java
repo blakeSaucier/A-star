@@ -13,7 +13,6 @@ public class Dijkstra {
 
 	private Graph graph;
 	private Map<Vertex, Double> distances;
-	private Map<Vertex, Vertex> parents;
 	private Set<Vertex> unDecided;
 	
 	// Dijkstra's running statistics
@@ -25,7 +24,6 @@ public class Dijkstra {
 	
 	public Result execute(Vertex start, Vertex end) {
 		distances = new HashMap<Vertex, Double>();
-		parents = new HashMap<Vertex, Vertex>();
 		unDecided = new HashSet<Vertex>();
 		verticesVisited = 0;
 		initializeDistances();
@@ -50,12 +48,11 @@ public class Dijkstra {
 	private void exploreAdjacent(Vertex vertex) {
 		Double currentDistance = distances.get(vertex);
 		for (Vertex adjacent: vertex.getAdjacencies()) {
+			verticesVisited++;
 			Double edgeCost = graph.getEdge(vertex, adjacent).getWeight();
 			Double distanceToAdjacent = distances.get(adjacent);
 			if ((edgeCost + currentDistance) < distanceToAdjacent ) {
-				verticesVisited++;
 				distances.put(adjacent, edgeCost + currentDistance);
-				parents.put(adjacent, vertex);
 			}
 		}
 	}
@@ -75,10 +72,13 @@ public class Dijkstra {
 	}
 	
 	// Static convenience method for creating and running Dijkstra
-	
-	public static void makeAndRun(Graph graph, Vertex start, Vertex end) {
+	public static Result makeAndRun(Graph graph, Vertex start, Vertex end) {
 		Dijkstra dijkstra = new Dijkstra(graph);
 		Result result = dijkstra.execute(start, end);
-		System.out.println("Dijkstra" + System.lineSeparator() + "Distance is : " + result.distance + " m, visited " + result.verticesVisited + " vertices while running");
+		System.out.print("*Dijkstra*" + System.lineSeparator() + "Distance: ");
+		System.out.format("%.2f", result.distance);
+		System.out.println(" m"); 
+		System.out.println("Vertices visited: " + result.verticesVisited + System.lineSeparator());
+		return result;
 	}
 }
